@@ -6,7 +6,7 @@
 #    By: cgoldens <cgoldens@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 11:31:20 by cgoldens          #+#    #+#              #
-#    Updated: 2024/11/08 13:38:03 by cgoldens         ###   ########.fr        #
+#    Updated: 2024/11/08 15:24:13 by cgoldens         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ LIBFT_PATH = libft/
 LIBFT = ./libft/libft.a
 RM = rm -rf
 
-SRV_SRCS = srcs/
-CLI_SRCS = srcs/
+SRV_SRCS = server.c
+CLI_SRCS = client.c
 
 SRV_OBJS = $(SRV_SRCS:.c=.o)
 CLI_OBJS = $(CLI_SRCS:.c=.o)
@@ -29,7 +29,7 @@ CLI_OBJS = $(CLI_SRCS:.c=.o)
 all: $(SERVER) $(CLIENT)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -I -c -o $@ $<
+	$(CC) $(CFLAGS) -I ./ -c -o $@ $<
 
 $(LIBFT):
 	$(MAKE) -s -C $(LIBFT_PATH)
@@ -37,7 +37,6 @@ $(SERVER): $(SRV_OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(SRV_OBJS) $(LIBFT) -o server
 $(CLIENT): $(CLI_OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(CLI_OBJS) $(LIBFT) -o client
-
 
 clean:
 	$(MAKE) clean -s -C $(LIBFT_PATH) 
