@@ -6,7 +6,7 @@
 /*   By: cgoldens <cgoldens@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 15:03:51 by cgoldens          #+#    #+#             */
-/*   Updated: 2024/10/29 16:11:37 by cgoldens         ###   ########.fr       */
+/*   Updated: 2024/11/11 14:02:37 by cgoldens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <stdlib.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/uio.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 typedef struct s_list
 {
@@ -83,4 +90,7 @@ int		ft_printpercent(void);
 int		ft_printhex(unsigned	int n, const	char f);
 int		ft_printptr(unsigned	long long ptr);
 int		ft_printunsigned(unsigned	int n);
+
+void	handle_errors(char *error_msg);
+char	*get_next_line(int fd);
 #endif
