@@ -6,14 +6,14 @@
 #    By: cgoldens <cgoldens@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 11:31:20 by cgoldens          #+#    #+#              #
-#    Updated: 2024/11/19 13:51:55 by cgoldens         ###   ########.fr        #
+#    Updated: 2024/11/22 14:21:02 by cgoldens         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SERVER = server
 CLIENT = client
-SERVER_B = server
-CLIENT_B = client
+SERVER_B = server_b
+CLIENT_B = client_b
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
@@ -36,22 +36,25 @@ CLI_B_OBJS = $(CLI_B_SRCS:.c=.o)
 # Règles
 all: $(SERVER) $(CLIENT)
 
-bonus: $(SERVER_B) $(CLIENT_B)
-
 %.o: %.c
 	$(CC) $(CFLAGS) -I ./ -c -o $@ $<
 
 $(LIBFT):
 	$(MAKE) -s -C $(LIBFT_PATH)
+
 $(SERVER): $(SRV_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(SRV_OBJS) $(LIBFT) -o server
+	$(CC) $(CFLAGS) $(SRV_OBJS) $(LIBFT) -o $(SERVER)
+
 $(CLIENT): $(CLI_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(CLI_OBJS) $(LIBFT) -o client
+	$(CC) $(CFLAGS) $(CLI_OBJS) $(LIBFT) -o $(CLIENT)
+
+bonus: $(SERVER_B) $(CLIENT_B)
 
 $(SERVER_B): $(SRV_B_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(SRV_B_OBJS) $(LIBFT) -o server
+	$(CC) $(CFLAGS) $(SRV_B_OBJS) $(LIBFT) -o $(SERVER_B)
+
 $(CLIENT_B): $(CLI_B_OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(CLI_B_OBJS) $(LIBFT) -o client
+	$(CC) $(CFLAGS) $(CLI_B_OBJS) $(LIBFT) -o $(CLIENT_B)
 
 clean:
 	$(MAKE) clean -s -C $(LIBFT_PATH)
