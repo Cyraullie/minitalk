@@ -6,7 +6,7 @@
 /*   By: cgoldens <cgoldens@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:23:23 by cgoldens          #+#    #+#             */
-/*   Updated: 2024/11/12 12:03:54 by cgoldens         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:46:20 by cgoldens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	handle_sigusr(int signum, siginfo_t *info, void *ucontent)
 	bit_itr--;
 	if (bit_itr < 0 && c)
 	{
-		ft_putchar_fd(c, STDOUT_FILENO);
+		//printf("%c\n", c);
+		get_all_c(c);
+		/*ft_putchar_fd(c, STDOUT_FILENO);
+		printf("%d\n", STDOUT_FILENO);*/
 		c = 0;
 		if (kill(info->si_pid, SIGUSR2) == -1)
 			handle_errors("Server failed to send SIGUSR2");
