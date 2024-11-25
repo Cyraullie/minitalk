@@ -6,7 +6,7 @@
 /*   By: cgoldens <cgoldens@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 14:43:00 by cgoldens          #+#    #+#             */
-/*   Updated: 2024/11/22 15:07:17 by cgoldens         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:47:35 by cgoldens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,48 @@ char	*ft_charcat(char *s, unsigned char c)
 	tmp = malloc(len + 2);
 	if (!tmp)
 		return (NULL);
-	ft_strlcpy(tmp, s, len);
-	printf("len_%ld\n", ft_strlen(tmp));
-	printf("text_%s_%c\n", tmp, c);
-	tmp[len + 1] = c;
-	tmp[len + 2] = '\0';
+	ft_strlcpy(tmp, s, len + 1);
+	tmp[len] = c;
+	tmp[len + 1] = '\0';
 	free(s);
 	return (tmp);
 }
 
 int	get_all_c(unsigned char c)
 {
-	static char	*str;
+	static char	*str = NULL;
 
 	if (!str)
 	{
 		str = malloc(1);
-		str[0] = c;
+		if (!str)
+			exit(EXIT_FAILURE);
+		str[0] = '\0';
 	}
 	str = ft_charcat(str, c);
+	if (c == '\0')
+	{
+		printf("%s\n", str);
+		free(str);
+		str = NULL;
+	}
 	return (0);
+}
+
+void	send_endchar(pid_t sv_pid)
+{
+	unsigned char	c;
+	int				nbr_bits;
+
+	c = '\0';
+	nbr_bits = 8;
+	while (nbr_bits--)
+	{
+		if (c & 0b10000000)
+			kill(sv_pid, SIGUSR1);
+		else
+			kill(sv_pid, SIGUSR2);
+		usleep(50);
+		c <<= 1;
+	}
 }

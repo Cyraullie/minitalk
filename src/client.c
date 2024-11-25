@@ -6,7 +6,7 @@
 /*   By: cgoldens <cgoldens@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:59:13 by cgoldens          #+#    #+#             */
-/*   Updated: 2024/11/12 12:03:52 by cgoldens         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:54:28 by cgoldens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ void	send_msg(pid_t sv_pid, char *msg)
 		}
 		msg++;
 	}
+	send_endchar(sv_pid);
 }
 
 void	sig_handler(int signum)
 {
 	if (signum == SIGUSR2)
-		write(1, "Character has been sucessfully receieved!\n", 42);
+		write(1, "Message has been sucessfully receieved!\n", 42);
 }
 
 void	config_signals(void)

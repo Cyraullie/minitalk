@@ -6,7 +6,7 @@
 /*   By: cgoldens <cgoldens@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 15:23:23 by cgoldens          #+#    #+#             */
-/*   Updated: 2024/11/22 14:46:20 by cgoldens         ###   ########.fr       */
+/*   Updated: 2024/11/25 13:45:16 by cgoldens         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,23 @@
 
 void	handle_sigusr(int signum, siginfo_t *info, void *ucontent)
 {
-	static int				bit_itr = -1;
-	static unsigned char	c;
+	static int				bit_itr = 7;
+	static unsigned char	c = 0;
 
 	(void)ucontent;
-	if (bit_itr < 0)
-		bit_itr = 7;
 	if (signum == SIGUSR1)
 		c |= (1 << bit_itr);
 	bit_itr--;
-	if (bit_itr < 0 && c)
+	if (bit_itr < 0)
 	{
-		//printf("%c\n", c);
 		get_all_c(c);
-		/*ft_putchar_fd(c, STDOUT_FILENO);
-		printf("%d\n", STDOUT_FILENO);*/
+		if (c == '\0')
+		{
+			if (kill(info->si_pid, SIGUSR2) == -1)
+				handle_errors("Server failed to send SIGUSR2");
+		}
 		c = 0;
-		if (kill(info->si_pid, SIGUSR2) == -1)
-			handle_errors("Server failed to send SIGUSR2");
-		return ;
+		bit_itr = 7;
 	}
 	if (kill(info->si_pid, SIGUSR1) == -1)
 		handle_errors("Failed to send SIGUSR1");
@@ -56,7 +54,8 @@ int	main(void)
 
 	pid = getpid();
 	ft_printf("SERVER PID = %d\n\n", pid);
+	config_signals();
 	while (1)
-		config_signals();
+		pause();
 	return (EXIT_SUCCESS);
 }

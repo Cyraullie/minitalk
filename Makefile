@@ -6,7 +6,7 @@
 #    By: cgoldens <cgoldens@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 11:31:20 by cgoldens          #+#    #+#              #
-#    Updated: 2024/11/22 14:45:41 by cgoldens         ###   ########.fr        #
+#    Updated: 2024/11/25 13:53:25 by cgoldens         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LIBFT = ./libft/libft.a
 RM = rm -rf
 
 SRV_SRCS = src/server.c src/string.c
-CLI_SRCS = src/client.c
+CLI_SRCS = src/client.c src/string.c
 
 SRV_B_SRCS = src_bonus/server_bonus.c
 CLI_B_SRCS = src_bonus/client_bonus.c
